@@ -6,13 +6,13 @@ import {
   getAllServer,
   getServerByName,
   updateServerByName,
-  deleteServerByName,
+  deleteServerById,
 } from "../controller/server.controller.js";
 
 router.post("/", createServer);
 router.get("/", getAllServer);
 router.get("/:name", getServerByName);
 router.put("/update/:name", updateServerByName);
-router.delete("/delete/:name", deleteServerByName);
+router.delete("/delete/:id", deleteServerById);
 
 export default router;

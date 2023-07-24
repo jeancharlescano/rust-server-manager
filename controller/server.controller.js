@@ -5,13 +5,17 @@ pool.connect;
 //#region CRUD
 
 export const createServer = async (req, res) => {
-  const { name, maxPlayer, wipeType, wipeDay } = req.body;
+  const { name, maxPlayer, wipeType, wipeDay, wipeTime } = req.body;
+  console.log(
+    "🚀 ~ file: server.controller.js:9 ~ createServer ~ req.body:",
+    req.body
+  );
 
   let result = null;
   await pool
     .query(
-      "INSERT INTO server (name, max_player, wipe_type, wipe_day ) VALUES ($1, $2, $3, $4);",
-      [name, maxPlayer, wipeType, wipeDay]
+      "INSERT INTO server (name, max_player, wipe_type, wipe_day, wipe_time ) VALUES ($1, $2, $3, $4, $5);",
+      [name, maxPlayer, wipeType, wipeDay, wipeTime]
     )
     .then((_response) => {
       result = `✅ server ${name} successfully added  ✅`;
@@ -25,7 +29,6 @@ export const createServer = async (req, res) => {
 
 export const getAllServer = async (req, res) => {
   let result = null;
-
   await pool
     .query("SELECT * FROM server")
     .then((res) => {
@@ -68,14 +71,14 @@ export const updateServerByName = async (req, res) => {
   return res.json(result);
 };
 
-export const deleteServerByName = async (req, res) => {
-  const { name } = req.params;
+export const deleteServerById = async (req, res) => {
+  const { id } = req.params;
 
   let result = null;
   await pool
-    .query("DELETE FROM server WHERE name = $1;", [name])
+    .query("DELETE FROM server WHERE id = $1;", [id])
     .then((res) => {
-      result = `✅ server ${name} successfully deleted  ✅`;
+      result = `✅ server ${id} successfully deleted  ✅`;
     })
     .catch((error) => console.error(error));
   return result;
